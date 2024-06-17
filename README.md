@@ -13,4 +13,5 @@ The script will place games that it has found into the results.txt file. No need
 Run the batch file to run the script.
 
 Dependencies: BeautifulSoup4, json, Selenium, lxml
+You need pipenv to run the script
 Written with Python version 3.12.4
