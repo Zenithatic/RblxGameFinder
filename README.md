@@ -4,7 +4,7 @@
 
 Change the link of the Roblox game as well as the search depth in the settings.json file to your liking.
 
-Any depth above 3 is not recommended unless you have blazing fast internet & computing power.
+Any depth above 4 is not recommended unless you have decent internet & computing power.
 
 Moreover, put any games that you've played already or do not want to play in the ignore.txt file.
 
