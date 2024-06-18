@@ -7,6 +7,7 @@ ignore: list[str] = []
 results: list[str] = []
 initialGame: str
 depth: int
+chromeBrowser: object
 
 # function to create new selenium browser
 def newChromeBrowser():
@@ -23,11 +24,10 @@ def getRec(gameLink: str, iteration: int = 0):
     else:
         # get and render webpage html
         link = gameLink + "#!/about"
-        browser = newChromeBrowser()
-        browser.get(link)
+        chromeBrowser.get(link)
 
         # parse and search with beautifulsoup
-        souped = bs4.BeautifulSoup(browser.page_source, "lxml")
+        souped = bs4.BeautifulSoup(chromeBrowser.page_source, "lxml")
         query = souped.find_all("a", {"class": "game-card-link"})
 
         # add found games to results and recursively find new games
@@ -36,7 +36,7 @@ def getRec(gameLink: str, iteration: int = 0):
             if (not foundLink in results):
                 results.append(foundLink)
             getRec(foundLink, iteration=(iteration + 1))
-
+    
 # main function
 def find():
     # declare global variables
@@ -44,6 +44,7 @@ def find():
     global ignore
     global initialGame
     global depth
+    global chromeBrowser
 
     # load games to ignore
     with open("./ignore.txt", "r") as ignoreFile:
@@ -64,6 +65,9 @@ def find():
     # get all recommended games
     getRec(initialGame)
 
+    # exit out of browser
+    chromeBrowser.quit()
+
     # remove ignored games
     for ignored in ignore:
         if (ignored in results):
@@ -74,9 +78,6 @@ def find():
         for result in results:
             resultFile.write(result + "\n")
         resultFile.close()
-
-    # close browser
-    chromeBrowser.close()
 
     # output finish message
     print("\n\nSCRIPT HAS FINISHED RUNNING!")
