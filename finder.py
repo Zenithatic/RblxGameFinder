@@ -1,5 +1,6 @@
 import bs4
 import json
+import time
 from selenium import webdriver
 
 # global variables
@@ -7,12 +8,14 @@ ignore: list[str] = []
 results: list[str] = []
 initialGame: str
 depth: int
-chromeBrowser: object
+delay: int
+chromeBrowser: webdriver.Chrome
 
 # function to create new selenium browser
 def newChromeBrowser():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
+    options.add_argument("--log-level=3")
     return webdriver.Chrome(options=options)
 
 # function to get all recommended games of a game
@@ -22,20 +25,24 @@ def getRec(gameLink: str, iteration: int = 0):
         if (not gameLink in results):
             results.append(gameLink)
     else:
-        # get and render webpage html
+        # get and render webpage html, and wait
         link = gameLink + "#!/about"
         chromeBrowser.get(link)
+        time.sleep(delay/1000)
 
         # parse and search with beautifulsoup
         souped = bs4.BeautifulSoup(chromeBrowser.page_source, "lxml")
         query = souped.find_all("a", {"class": "game-card-link"})
+
+        print(gameLink + " with games found: " + str(len(query)))
 
         # add found games to results and recursively find new games
         for item in query:
             foundLink = item["href"].split("?")[0]
             if (not foundLink in results):
                 results.append(foundLink)
-            getRec(foundLink, iteration=(iteration + 1))
+                print(" searching " + foundLink + " for game")
+                getRec(foundLink, iteration + 1)
     
 # main function
 def find():
@@ -45,6 +52,7 @@ def find():
     global initialGame
     global depth
     global chromeBrowser
+    global delay
 
     # load games to ignore
     with open("./ignore.txt", "r") as ignoreFile:
@@ -57,7 +65,11 @@ def find():
         data = json.load(settings)
         initialGame = data["initialGame"]
         depth = data["depth"]
+        delay = data["delay"]
         settings.close()
+
+    # output starting message
+    print("\n\nSCRIPT IS NOW RUNNING, THIS MAY TAKE A WHILE.")
 
     # open browser
     chromeBrowser = newChromeBrowser()
