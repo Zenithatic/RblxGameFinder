@@ -1,19 +1,27 @@
 # RblxGameFinder
 
-## RblxGameFinder is a web scraper written in Python that finds recommended roblox games given an initial game.
+## About this project
 
-Change the link of the Roblox game as well as the search depth in the settings.json file to your liking.
+Finding games on Roblox can be hard and tedious, especially when the front page is filled with overrated games. This project aims to provide a solution to the tedious search for games. RblxGameFinder is a web scraper written in Python that finds roblox games for you, by recursively searching for recommended games given an initial game.
 
-Any depth above 4 is not recommended unless you have decent internet & computing power.
+## How to use
+- Change the link of the Roblox game as well as the search depth in the settings.json file to your liking.
 
-Moreover, put any games that you've played already or do not want to play in the ignore.txt file.
+- Any depth above 4 isn't really recommended unless you have decent internet & computing power.
 
-The script will place games that it has found into the results.txt file. No need to clear its contents.
+- You can change the delay at which each game is searched, but the default value is recommended.
 
-Run the batch file to run the script.
+- Moreover, put any games that you've played already or do not want to play in the ignore.txt file, each separated by a new line.
 
-Dependencies: BeautifulSoup4, json, Selenium, lxml 
+- The script will place games that it has found into the results.txt file. No need to clear its contents every time you run the script.
 
-You need pipenv to run the script
+- Run the batch file to run the script.
 
+- You will need Python, and it must be added to PATH to run the script
+
+## Technical stuff
 Written with Python version 3.12.4
+
+External Package Dependencies: pipenv, BeautifulSoup4, Selenium, lxml 
+
+The batch file already installs pipenv for you and uses pipenv to setup the other 3 packages in a local environment
