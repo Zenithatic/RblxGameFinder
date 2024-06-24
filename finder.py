@@ -26,8 +26,7 @@ def getRec(gameLink: str, iteration: int = 0):
             results.append(gameLink)
     else:
         # get and render webpage html, and wait
-        link = gameLink + "#!/about"
-        chromeBrowser.get(link)
+        chromeBrowser.get(gameLink + "#!/about")
         time.sleep(delay/1000)
 
         # parse and search with beautifulsoup
